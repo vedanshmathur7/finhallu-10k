@@ -93,10 +93,18 @@ def main() -> None:
 
         rows = []
         for mid in a.hf:
-            m = HFModel(mid)
-            rows += run([m], qs, retr, workers=1)
-            save(rows)  # checkpoint after each model
-            m.close()
+            try:
+                m = HFModel(mid)
+                rows += run([m], qs, retr, workers=1)
+                save(rows)  # checkpoint after each model
+                m.close()
+            except Exception as e:  # one broken model must not sink the whole run
+                import traceback
+
+                print(f"!! {mid} failed: {type(e).__name__}: {e}")
+                traceback.print_exc()
+        if not rows:
+            raise SystemExit("all models failed")
         return
     rows = run([ChatModel(s) for s in load_specs(a.models)], qs, retr)
     save(rows)
