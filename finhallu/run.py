@@ -76,6 +76,7 @@ def main() -> None:
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--k", type=int, default=8, help="chunks retrieved per question")
     ap.add_argument("--limit", type=int, help="first N questions only (smoke test)")
+    ap.add_argument("--hf", nargs="*", help="Hugging Face model ids to run locally on GPU instead of API models")
     a = ap.parse_args()
 
     qs = load_questions()[: a.limit] if a.limit else load_questions()
@@ -86,7 +87,18 @@ def main() -> None:
         return
     from .corpus import load_retrievers
 
-    rows = run([ChatModel(s) for s in load_specs(a.models)], qs, load_retrievers(a.k))
+    retr = load_retrievers(a.k)
+    if a.hf:  # local GPU models, loaded one at a time to fit in memory
+        from .hf_local import HFModel
+
+        rows = []
+        for mid in a.hf:
+            m = HFModel(mid)
+            rows += run([m], qs, retr, workers=1)
+            save(rows)  # checkpoint after each model
+            m.close()
+        return
+    rows = run([ChatModel(s) for s in load_specs(a.models)], qs, retr)
     save(rows)
 
 
