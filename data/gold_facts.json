@@ -1,0 +1,25 @@
+{
+  "_source": "SEC EDGAR XBRL companyfacts API (data.sec.gov), facts tagged to each company's latest 10-K accession. Pulled 2026-10-13. Monetary values in USD millions; EPS in USD per diluted share.",
+  "companies": {
+    "AAPL": {"name": "Apple Inc.", "cik": 320193, "accn": "0000320193-25-000079", "doc": "aapl-20250927.htm", "fy_end": "2025-09-27", "fy_label": "fiscal 2025", "prior_label": "fiscal 2024",
+      "metrics": {"revenue": [416161, 391035], "net_income": [112010, 93736], "total_assets": [359241, 364980], "equity": [73733, 56950], "op_cash_flow": [111482, 118254], "rnd": [34550, 31370], "eps_diluted": [7.46, 6.08], "cash": [35934, 29943], "operating_income": [133050, 123216]}},
+    "MSFT": {"name": "Microsoft Corporation", "cik": 789019, "accn": "0001193125-26-323660", "doc": "msft-20260630.htm", "fy_end": "2026-06-30", "fy_label": "fiscal 2026", "prior_label": "fiscal 2025",
+      "metrics": {"revenue": [331839, 281724], "net_income": [133749, 101832], "total_assets": [758376, 619003], "equity": [442387, 343479], "op_cash_flow": [182935, 136162], "rnd": [35562, 32488], "eps_diluted": [17.95, 13.64], "cash": [20935, 30242], "operating_income": [155237, 128528]}},
+    "NVDA": {"name": "NVIDIA Corporation", "cik": 1045810, "accn": "0001045810-26-000021", "doc": "nvda-20260125.htm", "fy_end": "2026-01-25", "fy_label": "fiscal 2026", "prior_label": "fiscal 2025",
+      "metrics": {"revenue": [215938, 130497], "net_income": [120067, 72880], "total_assets": [206803, 111601], "equity": [157293, 79327], "op_cash_flow": [102718, 64089], "rnd": [18497, 12914], "eps_diluted": [4.90, 2.94], "cash": [10605, 8589], "operating_income": [130387, 81453]}},
+    "JPM": {"name": "JPMorgan Chase & Co.", "cik": 19617, "accn": "0001628280-26-008131", "doc": "jpm-20251231.htm", "fy_end": "2025-12-31", "fy_label": "2025", "prior_label": "2024",
+      "metrics": {"revenue": [182447, 177556], "net_income": [57048, 58471], "total_assets": [4424900, 4002814], "equity": [362438, 344758], "op_cash_flow": [-147782, -42012], "eps_diluted": [20.02, 19.75]}},
+    "XOM": {"name": "Exxon Mobil Corporation", "cik": 34088, "accn": "0000034088-26-000045", "doc": "xom-20251231.htm", "fy_end": "2025-12-31", "fy_label": "2025", "prior_label": "2024",
+      "metrics": {"revenue": [332238, 349585], "net_income": [28844, 33680], "total_assets": [448980, 453475], "equity": [259386, 263705], "op_cash_flow": [51970, 55022], "eps_diluted": [6.70, 7.84], "cash": [10681, 23029]}},
+    "JNJ": {"name": "Johnson & Johnson", "cik": 200406, "accn": "0000200406-26-000016", "doc": "jnj-20251228.htm", "fy_end": "2025-12-28", "fy_label": "fiscal 2025", "prior_label": "fiscal 2024",
+      "metrics": {"revenue": [94193, 88821], "net_income": [26804, 14066], "total_assets": [199210, 180104], "op_cash_flow": [24530, 24266], "eps_diluted": [11.03, 5.79], "cash": [19709, 24105]}},
+    "WMT": {"name": "Walmart Inc.", "cik": 104169, "accn": "0000104169-26-000055", "doc": "wmt-20260131.htm", "fy_end": "2026-01-31", "fy_label": "fiscal 2026", "prior_label": "fiscal 2025",
+      "metrics": {"revenue": [706413, 674538], "net_income": [21893, 19436], "total_assets": [284668, 260823], "equity": [99617, 91013], "op_cash_flow": [41565, 36443], "cash": [10727, 9037], "operating_income": [29825, 29348]}},
+    "CAT": {"name": "Caterpillar Inc.", "cik": 18230, "accn": "0000018230-26-000008", "doc": "cat-20251231.htm", "fy_end": "2025-12-31", "fy_label": "2025", "prior_label": "2024",
+      "metrics": {"revenue": [67589, 64809], "total_assets": [98585, 87764], "op_cash_flow": [11739, 12035], "rnd": [2148, 2107], "eps_diluted": [18.81, 22.05], "cash": [9980, 6889], "operating_income": [11151, 13072]}},
+    "KO": {"name": "The Coca-Cola Company", "cik": 21344, "accn": "0001628280-26-010047", "doc": "ko-20251231.htm", "fy_end": "2025-12-31", "fy_label": "2025", "prior_label": "2024",
+      "metrics": {"revenue": [47941, 47061], "net_income": [13107, 10631], "total_assets": [104816, 100549], "equity": [32169, 24856], "op_cash_flow": [7408, 6805], "cash": [10270, 10828], "operating_income": [13762, 9992]}},
+    "NFLX": {"name": "Netflix, Inc.", "cik": 1065280, "accn": "0001065280-26-000034", "doc": "nflx-20251231.htm", "fy_end": "2025-12-31", "fy_label": "2025", "prior_label": "2024",
+      "metrics": {"revenue": [45183.036, 39000.966], "net_income": [10981.201, 8711.631], "total_assets": [55596.993, 53630.374], "equity": [26615.488, 24743.567], "op_cash_flow": [10149.273, 7361.364], "rnd": [3391.39, 2925.295], "eps_diluted": [2.53, 1.98], "cash": [9033.681, 7804.733], "operating_income": [13326.603, 10417.614]}}
+  }
+}
