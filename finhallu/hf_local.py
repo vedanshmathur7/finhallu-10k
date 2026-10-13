@@ -20,9 +20,14 @@ class HFModel:
 
         self.spec = ModelSpec(name=model_id.split("/")[-1], model=model_id)
         self.tok = AutoTokenizer.from_pretrained(model_id)
-        self.model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16, device_map="auto")
+        n_gpu = torch.cuda.device_count()
+        # Leave headroom on the last GPU: generation's logits (seq x vocab) land there.
+        max_memory = {i: ("13GiB" if i < n_gpu - 1 else "9GiB") for i in range(n_gpu)} if n_gpu > 1 else None
+        self.model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16, device_map="auto",
+                                                          max_memory=max_memory, attn_implementation="sdpa")
         self.model.eval()
         self.max_new_tokens = max_new_tokens
+        self.max_input_tokens = 6000
 
     def _encode(self, messages: list[dict]) -> dict:
         """Returns {'input_ids', 'attention_mask'} on any transformers version (4.x returns a tensor, 5.x a dict)."""
@@ -40,11 +45,19 @@ class HFModel:
     def chat(self, messages: list[dict], qid: str | None = None) -> str:
         import torch
 
-        enc = {k: v.to(self.model.device) for k, v in self._encode(messages).items()}
+        enc = self._encode(messages)
         n = enc["input_ids"].shape[1]
-        with torch.no_grad():
-            out = self.model.generate(**enc, max_new_tokens=self.max_new_tokens, do_sample=False,
-                                      pad_token_id=self.tok.pad_token_id or self.tok.eos_token_id)
+        if n > self.max_input_tokens:  # keep the tail: the question and the latest excerpts
+            enc = {k: v[:, -self.max_input_tokens:] for k, v in enc.items()}
+            n = self.max_input_tokens
+        enc = {k: v.to(self.model.device) for k, v in enc.items()}
+        try:
+            with torch.no_grad():
+                out = self.model.generate(**enc, max_new_tokens=self.max_new_tokens, do_sample=False,
+                                          pad_token_id=self.tok.pad_token_id or self.tok.eos_token_id)
+        except torch.cuda.OutOfMemoryError:
+            torch.cuda.empty_cache()
+            return "[ERROR] CUDA out of memory"  # graded as no_answer; counted, not hidden
         return self.tok.decode(out[0, n:], skip_special_tokens=True)
 
     def close(self) -> None:

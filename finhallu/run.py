@@ -40,6 +40,7 @@ def ask(model, q: dict, retr) -> dict:
         ctx = "\n\n---\n\n".join(retr.search(query)) if retr else ""
         msgs.append({"role": "user", "content": f"10-K excerpts:\n{ctx}\n\nQuestion: {turn}"})
         answer = model.chat(msgs, qid=q["id"])
+        msgs[-1] = {"role": "user", "content": f"Question: {turn}"}  # keep history short: drop old excerpts
         msgs.append({"role": "assistant", "content": answer})
     return {
         "id": q["id"], "ticker": q["ticker"], "type": q["type"], "metric": q["metric"], "unit": q["unit"],

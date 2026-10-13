@@ -21,7 +21,11 @@ def main(path: str | None = None) -> None:
     models = sorted({r["model"] for r in rows})
     acc = defaultdict(lambda: defaultdict(list))
     fails = defaultdict(Counter)
+    infra = Counter()
     for r in rows:
+        if r["label"] == "infra_error":  # failed model call, not a model answer: excluded, disclosed below
+            infra[r["model"]] += 1
+            continue
         acc[r["model"]][r["type"]].append(r["label"] == "correct")
         acc[r["model"]]["overall"].append(r["label"] == "correct")
         if r["label"] != "correct":
@@ -40,7 +44,11 @@ def main(path: str | None = None) -> None:
     for m in models:
         traps = acc[m]["trap"]
         if traps:
-            md.append(f"- **{m}** invented a number on {100 - 100 * sum(traps) / len(traps):.0f}% of unanswerable questions.")
+            md.append(f"- **{m}** invented a number on {100 * fails[m]['fabricated'] / len(traps):.0f}% of unanswerable questions "
+                      f"({fails[m]['fabricated']}/{len(traps)}).")
+    if infra:
+        md += ["", "Excluded model-call failures (out of memory / API errors): "
+               + ", ".join(f"{m}: {n}" for m, n in sorted(infra.items())) + "."]
     out = p.with_name(p.stem + "_summary.md")
     out.write_text("\n".join(md) + "\n")
     print("\n".join(md))
