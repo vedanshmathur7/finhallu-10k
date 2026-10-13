@@ -39,6 +39,8 @@ Free option: run open models on a Kaggle T4 with vLLM (`vllm serve Qwen/Qwen2.5-
 
 Three open models, run locally on a Kaggle 2x T4 (fp16, greedy decoding, BM25 top-8, 300-token answer limit).
 
+![% correct by question type](results_chart.png)
+
 | Model | Overall | lookup | prior year | YoY % | margin | follow-up | unanswerable (abstained) |
 |---|---|---|---|---|---|---|---|
 | Qwen2.5-7B-Instruct | **52%** | 49% | 43% | 50% | 38% | 30% | 100% |
